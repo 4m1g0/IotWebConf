@@ -1,7 +1,7 @@
 /**
- * IotWebConfMultipleWifi.h -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2MultipleWifi.h -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2021 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -9,13 +9,13 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-#ifndef IotWebConfMultipleWifi_h
-#define IotWebConfMultipleWifi_h
+#ifndef IotWebConf2MultipleWifi_h
+#define IotWebConf2MultipleWifi_h
 
-#include "IotWebConfOptionalGroup.h"
-#include "IotWebConf.h" // for WebRequestWrapper
+#include "IotWebConf2OptionalGroup.h"
+#include "IotWebConf2.h" // for WebRequestWrapper
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
 class ChainedWifiParameterGroup : public ChainedParameterGroup
@@ -48,7 +48,7 @@ class MultipleWifiAddition
 {
 public:
   MultipleWifiAddition(
-    IotWebConf* iotWebConf,
+    IotWebConf2* iotWebConf,
     ChainedWifiParameterGroup sets[],
     size_t setsSize);
   /**
@@ -62,11 +62,11 @@ public:
     WebRequestWrapper* webRequestWrapper);
 
 protected:
-  IotWebConf* _iotWebConf;
+  IotWebConf2* _iotWebConf;
   ChainedWifiParameterGroup* _firstSet;
   ChainedWifiParameterGroup* _currentSet;
 
-  iotwebconf::OptionalGroupHtmlFormatProvider _optionalGroupHtmlFormatProvider;
+  iotwebconf2::OptionalGroupHtmlFormatProvider _optionalGroupHtmlFormatProvider;
 };
 
 }

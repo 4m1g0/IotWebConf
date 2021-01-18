@@ -1,7 +1,7 @@
 /**
- * IotWebConf.cpp -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2.cpp -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -11,7 +11,7 @@
 
 #include <EEPROM.h>
 
-#include "IotWebConf.h"
+#include "IotWebConf2.h"
 
 #ifdef IOTWEBCONF_CONFIG_USE_MDNS
 # ifdef ESP8266
@@ -25,10 +25,10 @@
 
 ////////////////////////////////////////////////////////////////
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
-IotWebConf::IotWebConf(
+IotWebConf2::IotWebConf2(
     const char* defaultThingName, DNSServer* dnsServer, WebServerWrapper* webServerWrapper,
     const char* initialApPassword, const char* configVersion)
 {
@@ -51,23 +51,23 @@ IotWebConf::IotWebConf(
   this->_wifiAuthInfo = {this->_wifiParameters._wifiSsid, this->_wifiParameters._wifiPassword};
 }
 
-char* IotWebConf::getThingName()
+char* IotWebConf2::getThingName()
 {
   return this->_thingName;
 }
 
-void IotWebConf::setConfigPin(int configPin)
+void IotWebConf2::setConfigPin(int configPin)
 {
   this->_configPin = configPin;
 }
 
-void IotWebConf::setStatusPin(int statusPin, int statusOnLevel)
+void IotWebConf2::setStatusPin(int statusPin, int statusOnLevel)
 {
   this->_statusPin = statusPin;
   this->_statusOnLevel = statusOnLevel;
 }
 
-bool IotWebConf::init()
+bool IotWebConf2::init()
 {
   // -- Setup pins.
   if (this->_configPin >= 0)
@@ -108,22 +108,22 @@ bool IotWebConf::init()
 
 //////////////////////////////////////////////////////////////////
 
-void IotWebConf::addParameterGroup(ParameterGroup* group)
+void IotWebConf2::addParameterGroup(ParameterGroup* group)
 {
   this->_customParameterGroups.addItem(group);
 }
 
-void IotWebConf::addHiddenParameter(ConfigItem* parameter)
+void IotWebConf2::addHiddenParameter(ConfigItem* parameter)
 {
   this->_hiddenParameters.addItem(parameter);
 }
 
-void IotWebConf::addSystemParameter(ConfigItem* parameter)
+void IotWebConf2::addSystemParameter(ConfigItem* parameter)
 {
   this->_systemParameters.addItem(parameter);
 }
 
-int IotWebConf::initConfig()
+int IotWebConf2::initConfig()
 {
   int size = this->_allParameters.getStorageSize();
 #ifdef IOTWEBCONF_DEBUG_TO_SERIAL
@@ -139,7 +139,7 @@ int IotWebConf::initConfig()
 /**
  * Load the configuration from the eeprom.
  */
-bool IotWebConf::loadConfig()
+bool IotWebConf2::loadConfig()
 {
   int size = this->initConfig();
   EEPROM.begin(
@@ -173,7 +173,7 @@ bool IotWebConf::loadConfig()
   EEPROM.end();
 }
 
-void IotWebConf::saveConfig()
+void IotWebConf2::saveConfig()
 {
   int size = this->initConfig();
   if (this->_configSavingCallback != NULL)
@@ -206,14 +206,14 @@ void IotWebConf::saveConfig()
   }
 }
 
-void IotWebConf::readEepromValue(int start, byte* valueBuffer, int length)
+void IotWebConf2::readEepromValue(int start, byte* valueBuffer, int length)
 {
   for (int t = 0; t < length; t++)
   {
     *((char*)valueBuffer + t) = EEPROM.read(start + t);
   }
 }
-void IotWebConf::writeEepromValue(int start, byte* valueBuffer, int length)
+void IotWebConf2::writeEepromValue(int start, byte* valueBuffer, int length)
 {
   for (int t = 0; t < length; t++)
   {
@@ -221,7 +221,7 @@ void IotWebConf::writeEepromValue(int start, byte* valueBuffer, int length)
   }
 }
 
-bool IotWebConf::testConfigVersion()
+bool IotWebConf2::testConfigVersion()
 {
   for (byte t = 0; t < IOTWEBCONF_CONFIG_VERSION_LENGTH; t++)
   {
@@ -233,7 +233,7 @@ bool IotWebConf::testConfigVersion()
   return true;
 }
 
-void IotWebConf::saveConfigVersion()
+void IotWebConf2::saveConfigVersion()
 {
   for (byte t = 0; t < IOTWEBCONF_CONFIG_VERSION_LENGTH; t++)
   {
@@ -241,35 +241,35 @@ void IotWebConf::saveConfigVersion()
   }
 }
 
-void IotWebConf::setWifiConnectionCallback(std::function<void()> func)
+void IotWebConf2::setWifiConnectionCallback(std::function<void()> func)
 {
   this->_wifiConnectionCallback = func;
 }
 
-void IotWebConf::setConfigSavingCallback(std::function<void(int size)> func)
+void IotWebConf2::setConfigSavingCallback(std::function<void(int size)> func)
 {
   this->_configSavingCallback = func;
 }
 
-void IotWebConf::setConfigSavedCallback(std::function<void()> func)
+void IotWebConf2::setConfigSavedCallback(std::function<void()> func)
 {
   this->_configSavedCallback = func;
 }
 
-void IotWebConf::setFormValidator(
+void IotWebConf2::setFormValidator(
   std::function<bool(WebRequestWrapper* webRequestWrapper)> func)
 {
   this->_formValidator = func;
 }
 
-void IotWebConf::setWifiConnectionTimeoutMs(unsigned long millis)
+void IotWebConf2::setWifiConnectionTimeoutMs(unsigned long millis)
 {
   this->_wifiConnectionTimeoutMs = millis;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void IotWebConf::handleConfig(WebRequestWrapper* webRequestWrapper)
+void IotWebConf2::handleConfig(WebRequestWrapper* webRequestWrapper)
 {
   if (this->_state == IOTWEBCONF_STATE_ONLINE)
   {
@@ -387,7 +387,7 @@ void IotWebConf::handleConfig(WebRequestWrapper* webRequestWrapper)
   }
 }
 
-bool IotWebConf::validateForm(WebRequestWrapper* webRequestWrapper)
+bool IotWebConf2::validateForm(WebRequestWrapper* webRequestWrapper)
 {
   // -- Clean previous error messages.
   this->_systemParameters.clearErrorMessage();
@@ -431,7 +431,7 @@ bool IotWebConf::validateForm(WebRequestWrapper* webRequestWrapper)
   return valid;
 }
 
-void IotWebConf::handleNotFound(WebRequestWrapper* webRequestWrapper)
+void IotWebConf2::handleNotFound(WebRequestWrapper* webRequestWrapper)
 {
   if (this->handleCaptivePortal(webRequestWrapper))
   {
@@ -461,7 +461,7 @@ void IotWebConf::handleNotFound(WebRequestWrapper* webRequestWrapper)
  * Return true in that case so the page handler do not try to handle the request
  * again. (Code from WifiManager project.)
  */
-bool IotWebConf::handleCaptivePortal(WebRequestWrapper* webRequestWrapper)
+bool IotWebConf2::handleCaptivePortal(WebRequestWrapper* webRequestWrapper)
 {
   String host = webRequestWrapper->hostHeader();
   String thingName = String(this->_thingName);
@@ -484,7 +484,7 @@ bool IotWebConf::handleCaptivePortal(WebRequestWrapper* webRequestWrapper)
 }
 
 /** Is this an IP? */
-bool IotWebConf::isIp(String str)
+bool IotWebConf2::isIp(String str)
 {
   for (size_t i = 0; i < str.length(); i++)
   {
@@ -498,7 +498,7 @@ bool IotWebConf::isIp(String str)
 }
 
 /** IP to String? */
-String IotWebConf::toStringIp(IPAddress ip)
+String IotWebConf2::toStringIp(IPAddress ip)
 {
   String res = "";
   for (int i = 0; i < 3; i++)
@@ -511,7 +511,7 @@ String IotWebConf::toStringIp(IPAddress ip)
 
 /////////////////////////////////////////////////////////////////////////////////
 
-void IotWebConf::delay(unsigned long m)
+void IotWebConf2::delay(unsigned long m)
 {
   unsigned long delayStart = millis();
   while (m > millis() - delayStart)
@@ -523,7 +523,7 @@ void IotWebConf::delay(unsigned long m)
   }
 }
 
-void IotWebConf::doLoop()
+void IotWebConf2::doLoop()
 {
   doBlink();
   yield(); // -- Yield should not be necessary, but cannot hurt either.
@@ -585,7 +585,7 @@ void IotWebConf::doLoop()
 /**
  * What happens, when a state changed...
  */
-void IotWebConf::changeState(byte newState)
+void IotWebConf2::changeState(byte newState)
 {
   switch (newState)
   {
@@ -632,7 +632,7 @@ void IotWebConf::changeState(byte newState)
 /**
  * What happens, when a state changed...
  */
-void IotWebConf::stateChanged(byte oldState, byte newState)
+void IotWebConf2::stateChanged(byte oldState, byte newState)
 {
 //  updateOutput();
   switch (newState)
@@ -731,7 +731,7 @@ void IotWebConf::stateChanged(byte oldState, byte newState)
   }
 }
 
-void IotWebConf::checkApTimeout()
+void IotWebConf2::checkApTimeout()
 {
   if ( !mustStayInApMode() )
   {
@@ -750,7 +750,7 @@ void IotWebConf::checkApTimeout()
  * If so, we must not change state. But when our guest leaved, we can
  * immediately move on.
  */
-void IotWebConf::checkConnection()
+void IotWebConf2::checkConnection()
 {
   if ((this->_apConnectionStatus == IOTWEBCONF_AP_CONNECTION_STATE_NC) &&
       (WiFi.softAPgetStationNum() > 0))
@@ -772,7 +772,7 @@ void IotWebConf::checkConnection()
   }
 }
 
-bool IotWebConf::checkWifiConnection()
+bool IotWebConf2::checkWifiConnection()
 {
   if (WiFi.status() != WL_CONNECTED)
   {
@@ -807,7 +807,7 @@ bool IotWebConf::checkWifiConnection()
   return true;
 }
 
-void IotWebConf::setupAp()
+void IotWebConf2::setupAp()
 {
   WiFi.mode(WIFI_AP);
 
@@ -853,7 +853,7 @@ void IotWebConf::setupAp()
   this->_dnsServer->start(IOTWEBCONF_DNS_PORT, "*", WiFi.softAPIP());
 }
 
-void IotWebConf::stopAp()
+void IotWebConf2::stopAp()
 {
   WiFi.softAPdisconnect(true);
   WiFi.mode(WIFI_STA);
@@ -861,7 +861,7 @@ void IotWebConf::stopAp()
 
 ////////////////////////////////////////////////////////////////////
 
-void IotWebConf::blink(unsigned long repeatMs, byte dutyCyclePercent)
+void IotWebConf2::blink(unsigned long repeatMs, byte dutyCyclePercent)
 {
   if (repeatMs == 0)
   {
@@ -874,26 +874,26 @@ void IotWebConf::blink(unsigned long repeatMs, byte dutyCyclePercent)
   }
 }
 
-void IotWebConf::fineBlink(unsigned long onMs, unsigned long offMs)
+void IotWebConf2::fineBlink(unsigned long onMs, unsigned long offMs)
 {
   this->_blinkOnMs = onMs;
   this->_blinkOffMs = offMs;
 }
 
-void IotWebConf::stopCustomBlink()
+void IotWebConf2::stopCustomBlink()
 {
   this->_blinkOnMs = this->_internalBlinkOnMs;
   this->_blinkOffMs = this->_internalBlinkOffMs;
 }
 
-void IotWebConf::blinkInternal(unsigned long repeatMs, byte dutyCyclePercent)
+void IotWebConf2::blinkInternal(unsigned long repeatMs, byte dutyCyclePercent)
 {
   this->blink(repeatMs, dutyCyclePercent);
   this->_internalBlinkOnMs = this->_blinkOnMs;
   this->_internalBlinkOffMs = this->_blinkOffMs;
 }
 
-void IotWebConf::doBlink()
+void IotWebConf2::doBlink()
 {
   if (IOTWEBCONF_STATUS_ENABLED)
   {
@@ -909,7 +909,7 @@ void IotWebConf::doBlink()
   }
 }
 
-void IotWebConf::forceApMode(bool doForce)
+void IotWebConf2::forceApMode(bool doForce)
 {
   if (this->_forceApMode == doForce)
   {
@@ -945,15 +945,15 @@ void IotWebConf::forceApMode(bool doForce)
   }
 }
 
-bool IotWebConf::connectAp(const char* apName, const char* password)
+bool IotWebConf2::connectAp(const char* apName, const char* password)
 {
   return WiFi.softAP(apName, password);
 }
-void IotWebConf::connectWifi(const char* ssid, const char* password)
+void IotWebConf2::connectWifi(const char* ssid, const char* password)
 {
   WiFi.begin(ssid, password);
 }
-WifiAuthInfo* IotWebConf::handleConnectWifiFailure()
+WifiAuthInfo* IotWebConf2::handleConnectWifiFailure()
 {
   return NULL;
 }

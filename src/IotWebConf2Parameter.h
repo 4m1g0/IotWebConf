@@ -1,7 +1,7 @@
 /**
- * IotWebConfParameter.h -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2Parameter.h -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -9,13 +9,13 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-#ifndef IotWebConfParameter_h
-#define IotWebConfParameter_h
+#ifndef IotWebConf2Parameter_h
+#define IotWebConf2Parameter_h
 
 #include <Arduino.h>
 #include <functional>
-#include <IotWebConfSettings.h>
-#include <IotWebConfWebServerWrapper.h>
+#include <IotWebConf2Settings.h>
+#include <IotWebConf2WebServerWrapper.h>
 
 const char IOTWEBCONF_HTML_FORM_GROUP_START[] PROGMEM =
   "<fieldset id='{i}'><legend>{b}</legend>\n";
@@ -34,7 +34,7 @@ const char IOTWEBCONF_HTML_FORM_SELECT_PARAM[] PROGMEM =
 const char IOTWEBCONF_HTML_FORM_OPTION[] PROGMEM =
   "<option value='{v}'{s}>{n}</option>\n";
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
 typedef struct SerializationData
@@ -151,7 +151,7 @@ protected:
   ConfigItem* _firstItem = NULL;
   ConfigItem* getNextItemOf(ConfigItem* parent) { return parent->_nextItem; };
 
-  friend class IotWebConf; // Allow IotWebConf to access protected members.
+  friend class IotWebConf2; // Allow IotWebConf2 to access protected members.
 
 private:
 };
@@ -255,7 +255,7 @@ protected:
   virtual String renderHtml(const char* type, bool hasValueFromPost, String valueFromPost);
 
 private:
-  friend class IotWebConf;
+  friend class IotWebConf2;
   friend class WifiParameterGroup;
 };
 
@@ -284,7 +284,7 @@ protected:
   virtual void debugTo(Stream* out) override;
 
 private:
-  friend class IotWebConf;
+  friend class IotWebConf2;
   friend class WifiParameterGroup;
 };
 
@@ -308,7 +308,7 @@ protected:
     bool dataArrived, bool hasValueFromPost, String valueFromPost) override;
 
 private:
-  friend class IotWebConf;
+  friend class IotWebConf2;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -333,7 +333,7 @@ protected:
   virtual void update(WebRequestWrapper* webRequestWrapper) override;
 
 private:
-  friend class IotWebConf;
+  friend class IotWebConf2;
   bool _checked;
   const char* _checkedStr = "checked='checked'";
 };
@@ -368,7 +368,7 @@ protected:
   size_t _nameLength;
 
 private:
-  friend class IotWebConf;
+  friend class IotWebConf2;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -390,7 +390,7 @@ protected:
     bool dataArrived, bool hasValueFromPost, String valueFromPost) override;
 
 private:
-  friend class IotWebConf;
+  friend class IotWebConf2;
 };
 
 /**

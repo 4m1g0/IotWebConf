@@ -1,7 +1,7 @@
 /**
- * IotWebConfWebServerWrapper.h -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2WebServerWrapper.h -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -15,7 +15,7 @@
 #include <Arduino.h>
 #include <IPAddress.h>
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
 class WebRequestWrapper
