@@ -27,6 +27,11 @@
 # define IOTWEBCONF_PASSWORD_LEN 33
 #endif
 
+// -- Maximal length of WiFi passwords in IotWebConf2ig configuration.
+#ifndef IOTWEBCONF_WIFI_PASSWORD_LEN
+# define IOTWEBCONF_WIFI_PASSWORD_LEN 65
+#endif
+
 // -- IotWebConf2 tries to connect to the local network for an amount of time
 // before falling back to AP mode.
 #ifndef IOTWEBCONF_DEFAULT_WIFI_CONNECTION_TIMEOUT_MS
