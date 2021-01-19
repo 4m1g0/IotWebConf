@@ -150,9 +150,9 @@ public:
   TextParameter wifiSsidParameter =
     TextParameter("WiFi SSID", "iwcWifiSsid", this->_wifiSsid, IOTWEBCONF_WORD_LEN);
   PasswordParameter wifiPasswordParameter =
-    PasswordParameter("WiFi password", "iwcWifiPassword", this->_wifiPassword, IOTWEBCONF_PASSWORD_LEN);
+    PasswordParameter("WiFi password", "iwcWifiPassword", this->_wifiPassword, IOTWEBCONF_WIFI_PASSWORD_LEN);
   char _wifiSsid[IOTWEBCONF_WORD_LEN];
-  char _wifiPassword[IOTWEBCONF_PASSWORD_LEN];
+  char _wifiPassword[IOTWEBCONF_WIFI_PASSWORD_LEN];
 };
 
 /**
