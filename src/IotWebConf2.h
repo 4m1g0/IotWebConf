@@ -1,7 +1,7 @@
 /**
- * IotWebConf.h -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2.h -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -9,13 +9,13 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-#ifndef IotWebConf_h
-#define IotWebConf_h
+#ifndef IotWebConf2_h
+#define IotWebConf2_h
 
 #include <Arduino.h>
-#include <IotWebConfParameter.h>
-#include <IotWebConfSettings.h>
-#include <IotWebConfWebServerWrapper.h>
+#include <IotWebConf2Parameter.h>
+#include <IotWebConf2Settings.h>
+#include <IotWebConf2WebServerWrapper.h>
 
 #ifdef ESP8266
 # include <ESP8266WiFi.h>
@@ -63,10 +63,10 @@ const char IOTWEBCONF_HTML_CONFIG_VER[] PROGMEM   = "<div style='font-size: .6em
 // -- User name on login.
 #define IOTWEBCONF_ADMIN_USER_NAME "admin"
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
-class IotWebConf;
+class IotWebConf2;
 
 typedef struct WifiAuthInfo
 {
@@ -122,7 +122,7 @@ public:
 
 private:
   WebServer* _server;
-  friend IotWebConf;
+  friend IotWebConf2;
 };
 
 class StandardWebServerWrapper : public WebServerWrapper
@@ -136,7 +136,7 @@ public:
 private:
   StandardWebServerWrapper() { };
   WebServer* _server;
-  friend IotWebConf;
+  friend IotWebConf2;
 };
 
 class WifiParameterGroup : public ParameterGroup
@@ -150,18 +150,18 @@ public:
   TextParameter wifiSsidParameter =
     TextParameter("WiFi SSID", "iwcWifiSsid", this->_wifiSsid, IOTWEBCONF_WORD_LEN);
   PasswordParameter wifiPasswordParameter =
-    PasswordParameter("WiFi password", "iwcWifiPassword", this->_wifiPassword, IOTWEBCONF_PASSWORD_LEN);
+    PasswordParameter("WiFi password", "iwcWifiPassword", this->_wifiPassword, IOTWEBCONF_WIFI_PASSWORD_LEN);
   char _wifiSsid[IOTWEBCONF_WORD_LEN];
-  char _wifiPassword[IOTWEBCONF_PASSWORD_LEN];
+  char _wifiPassword[IOTWEBCONF_WIFI_PASSWORD_LEN];
 };
 
 /**
  * Main class of the module.
  */
-class IotWebConf
+class IotWebConf2
 {
 public:
-  IotWebConf() { };
+  IotWebConf2() { };
   /**
    * Create a new configuration handler.
    *   @thingName - Initial value for the thing name. Used in many places like AP name, can be changed by the user.
@@ -171,15 +171,15 @@ public:
    *   @configVersion - When the software is updated and the configuration is changing, this key should also be changed,
    *     so that the config portal will force the user to reenter all the configuration values.
    */
-  IotWebConf(
+  IotWebConf2(
       const char* thingName, DNSServer* dnsServer, WebServer* server,
       const char* initialApPassword, const char* configVersion = "init") :
-      IotWebConf(thingName, dnsServer, &this->_standardWebServerWrapper, initialApPassword, configVersion)
+      IotWebConf2(thingName, dnsServer, &this->_standardWebServerWrapper, initialApPassword, configVersion)
   {
     this->_standardWebServerWrapper._server = server;
   }
 
-  IotWebConf(
+  IotWebConf2(
       const char* thingName, DNSServer* dnsServer, WebServerWrapper* server,
       const char* initialApPassword, const char* configVersion = "init");
 
@@ -225,14 +225,14 @@ public:
   }
 
   /**
-   * Start up the IotWebConf module.
+   * Start up the IotWebConf2 module.
    * Loads all configuration from the EEPROM, and initialize the system.
    * Will return false, if no configuration (with specified config version) was found in the EEPROM.
    */
   bool init();
 
   /**
-   * IotWebConf is a non-blocking, state controlled system. Therefor it should be
+   * IotWebConf2 is a non-blocking, state controlled system. Therefor it should be
    * regularly triggered from the user code.
    * So call this method any time you can.
    */
@@ -278,7 +278,7 @@ public:
   /**
    * Specify a callback method, that will be called when settings is being changed.
    * This is very handy if you have other routines, that are modifying the "EEPROM"
-   * parallel to IotWebConf, now this is the time to disable these routines.
+   * parallel to IotWebConf2, now this is the time to disable these routines.
    * Should be called before init()!
    */
   void setConfigSavingCallback(std::function<void(int size)> func);
@@ -298,7 +298,7 @@ public:
   void setFormValidator(std::function<bool(WebRequestWrapper* webRequestWrapper)> func);
 
   /**
-   * Specify your custom Access Point connection handler. Please use IotWebConf::connectAp() as
+   * Specify your custom Access Point connection handler. Please use IotWebConf2::connectAp() as
    * reference when implementing your custom solution.
    */
   void setApConnectionHandler(
@@ -308,9 +308,9 @@ public:
   }
 
   /**
-   * Specify your custom WiFi connection handler. Please use IotWebConf::connectWifi() as
+   * Specify your custom WiFi connection handler. Please use IotWebConf2::connectWifi() as
    * reference when implementing your custom solution.
-   * Your method will be called when IotWebConf trying to establish
+   * Your method will be called when IotWebConf2 trying to establish
    * connection to a WiFi network.
    */
   void setWifiConnectionHandler(
@@ -323,13 +323,13 @@ public:
    * With this method you can specify your custom WiFi timeout handler.
    * This handler can manage what should happen, when WiFi connection timed out.
    * By default the handler implementation returns with NULL, as seen on reference implementation
-   * IotWebConf::handleConnectWifiFailure(). This means we need to fall back to AP mode.
+   * IotWebConf2::handleConnectWifiFailure(). This means we need to fall back to AP mode.
    * If it method returns with a (new) WiFi settings, it is used as a next try.
    * Note, that in case once you have returned with NULL, you might also want to
    * resetWifiAuthInfo(), that sets the auth info used for the next time to the
    * one set up in the admin portal.
    * Note, that this feature is provided because of the option of providing multiple
-   * WiFi settings utilized by the MultipleWifiAddition class. (See IotWebConfMultipleWifi.h)
+   * WiFi settings utilized by the MultipleWifiAddition class. (See IotWebConf2MultipleWifi.h)
    */
   void setWifiConnectionFailedHandler( std::function<WifiAuthInfo*()> func )
   {
@@ -337,7 +337,7 @@ public:
   }
 
   /**
-   * Add a custom parameter group, that will be handled by the IotWebConf module.
+   * Add a custom parameter group, that will be handled by the IotWebConf2 module.
    * The parameters in this group will be saved to/loaded from EEPROM automatically,
    * and will appear on the config portal.
    * Must be called before init()!
@@ -345,7 +345,7 @@ public:
   void addParameterGroup(ParameterGroup* group);
 
   /**
-   * Add a custom parameter group, that will be handled by the IotWebConf module.
+   * Add a custom parameter group, that will be handled by the IotWebConf2 module.
    * The parameters in this group will be saved to/loaded from EEPROM automatically,
    * but will NOT appear on the config portal.
    * Must be called before init()!
@@ -353,7 +353,7 @@ public:
   void addHiddenParameter(ConfigItem* parameter);
 
   /**
-   * Add a custom parameter group, that will be handled by the IotWebConf module.
+   * Add a custom parameter group, that will be handled by the IotWebConf2 module.
    * The parameters in this group will be saved to/loaded from EEPROM automatically,
    * but will NOT appear on the config portal.
    * Must be called before init()!
@@ -366,12 +366,12 @@ public:
   char* getThingName();
 
   /**
-   * Use this delay, to prevent blocking IotWebConf.
+   * Use this delay, to prevent blocking IotWebConf2.
    */
   void delay(unsigned long millis);
 
   /**
-   * IotWebConf tries to connect to the local network for an amount of time before falling back to AP mode.
+   * IotWebConf2 tries to connect to the local network for an amount of time before falling back to AP mode.
    * The default amount can be updated with this setter.
    * Should be called before init()!
    */
@@ -453,7 +453,7 @@ public:
   };
 
   /**
-   * By default IotWebConf starts up in AP mode. Calling this method before the init will force IotWebConf
+   * By default IotWebConf2 starts up in AP mode. Calling this method before the init will force IotWebConf2
    * to connect immediately to the configured WiFi network.
    * Note, this method only takes effect, when WiFi mode is enabled, thus when a valid WiFi connection is
    * set up, and AP mode is not forced by ConfigPin (see setConfigPin() for details).
@@ -461,7 +461,7 @@ public:
   void skipApStartup() { this->_skipApStartup = true; }
 
   /**
-   * By default IotWebConf will continue startup in WiFi mode, when no configuration request arrived
+   * By default IotWebConf2 will continue startup in WiFi mode, when no configuration request arrived
    * in AP mode. With this method holding the AP mode can be forced.
    * Further more, instant AP mode can forced even when we are currently in WiFi mode.
    *   @value - When parameter is TRUE AP mode is forced/entered.
@@ -574,11 +574,11 @@ private:
   std::function<void()> _configSavedCallback = NULL;
   std::function<bool(WebRequestWrapper* webRequestWrapper)> _formValidator = NULL;
   std::function<void(const char*, const char*)> _apConnectionHandler =
-      &(IotWebConf::connectAp);
+      &(IotWebConf2::connectAp);
   std::function<void(const char*, const char*)> _wifiConnectionHandler =
-      &(IotWebConf::connectWifi);
+      &(IotWebConf2::connectWifi);
   std::function<WifiAuthInfo*()> _wifiConnectionFailureHandler =
-      &(IotWebConf::handleConnectWifiFailure);
+      &(IotWebConf2::handleConnectWifiFailure);
   unsigned long _internalBlinkOnMs = 500;
   unsigned long _internalBlinkOffMs = 500;
   unsigned long _blinkOnMs = 500;
@@ -629,6 +629,6 @@ private:
 
 } // end namespace
 
-using iotwebconf::IotWebConf;
+using iotwebconf2::IotWebConf2;
 
 #endif

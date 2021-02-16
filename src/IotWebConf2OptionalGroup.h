@@ -1,7 +1,7 @@
 /**
- * IotWebConfOptionalGroup.h -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2OptionalGroup.h -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -9,11 +9,11 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-#ifndef IotWebConfOptionalGroup_h
-#define IotWebConfOptionalGroup_h
+#ifndef IotWebConf2OptionalGroup_h
+#define IotWebConf2OptionalGroup_h
 
-#include "IotWebConf.h" // For HtmlFormatProvider ... TODO: should be reorganized
-#include "IotWebConfParameter.h"
+#include "IotWebConf2.h" // For HtmlFormatProvider ... TODO: should be reorganized
+#include "IotWebConf2Parameter.h"
 
 const char IOTWEBCONF_HTML_FORM_OPTIONAL_GROUP_JAVASCRIPT[] PROGMEM =
   "    function show(id) { var x=document.getElementById(id); x.classList.remove('hide'); }\n"
@@ -41,7 +41,7 @@ const char IOTWEBCONF_HTML_FORM_OPTIONAL_GROUP_END[] PROGMEM =
 const char IOTWEBCONF_HTML_FORM_CHAINED_GROUP_NEXTID[] PROGMEM =
   "<input type='hidden' id='{i}next' value='{in}'/>\n";
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
 class OptionalGroupHtmlFormatProvider : public HtmlFormatProvider

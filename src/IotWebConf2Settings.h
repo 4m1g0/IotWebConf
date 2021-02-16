@@ -1,7 +1,7 @@
 /**
- * IotWebConfSettings.h -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2Settings.h -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -9,25 +9,30 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-#ifndef IotWebConfSettings_h
-#define IotWebConfSettings_h
+#ifndef IotWebConf2Settings_h
+#define IotWebConf2Settings_h
 
 // -- We might want to place the config in the EEPROM in an offset.
 #ifndef IOTWEBCONF_CONFIG_START
 # define IOTWEBCONF_CONFIG_START 0
 #endif
 
-// -- Maximal length of any string used in IotWebConfig configuration (e.g.
+// -- Maximal length of any string used in IotWebConf2ig configuration (e.g.
 // ssid).
 #ifndef IOTWEBCONF_WORD_LEN
 # define IOTWEBCONF_WORD_LEN 33
 #endif
-// -- Maximal length of password used in IotWebConfig configuration.
+// -- Maximal length of password used in IotWebConf2ig configuration.
 #ifndef IOTWEBCONF_PASSWORD_LEN
 # define IOTWEBCONF_PASSWORD_LEN 33
 #endif
 
-// -- IotWebConf tries to connect to the local network for an amount of time
+// -- Maximal length of WiFi passwords in IotWebConf2ig configuration.
+#ifndef IOTWEBCONF_WIFI_PASSWORD_LEN
+# define IOTWEBCONF_WIFI_PASSWORD_LEN 65
+#endif
+
+// -- IotWebConf2 tries to connect to the local network for an amount of time
 // before falling back to AP mode.
 #ifndef IOTWEBCONF_DEFAULT_WIFI_CONNECTION_TIMEOUT_MS
 # define IOTWEBCONF_DEFAULT_WIFI_CONNECTION_TIMEOUT_MS 30000

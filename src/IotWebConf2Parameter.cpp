@@ -1,7 +1,7 @@
 /**
- * IotWebConfParameter.cpp -- IotWebConf is an ESP8266/ESP32
+ * IotWebConf2Parameter.cpp -- IotWebConf2 is an ESP8266/ESP32
  *   non blocking WiFi/AP web configuration library for Arduino.
- *   https://github.com/prampec/IotWebConf
+ *   https://github.com/prampec/IotWebConf2
  *
  * Copyright (C) 2020 Balazs Kelemen <prampec+arduino@gmail.com>
  *
@@ -9,9 +9,9 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-#include <IotWebConfParameter.h>
+#include <IotWebConf2Parameter.h>
 
-namespace iotwebconf
+namespace iotwebconf2
 {
 
 ParameterGroup::ParameterGroup(
