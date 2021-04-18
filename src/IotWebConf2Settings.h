@@ -75,4 +75,22 @@
 # define IOTWEBCONF_DNS_PORT 53
 #endif
 
+// Failsafe
+// -- EEPROM config starts with a special prefix of length defined here.
+#ifndef IOTWEBCONF_FAILSAFE_LENGTH
+# define IOTWEBCONF_FAILSAFE_LENGTH 1
+#endif
+
+#ifndef IOTWEBCONF_FAILSAFE_BOOT_COUNT
+# define IOTWEBCONF_FAILSAFE_BOOT_COUNT 10
+#endif
+
+#ifndef IOTWEBCONF_FAILSAFE_RESET_TIME
+# define IOTWEBCONF_FAILSAFE_RESET_TIME 10000
+#endif
+
+#ifndef IOTWEBCONF_FAILSAFE_RESCUE_TIME
+# define IOTWEBCONF_FAILSAFE_RESCUE_TIME 900000
+#endif
+
 #endif
